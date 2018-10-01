@@ -16,7 +16,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
 import messages from './messages';
-import List from './List';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class MessagePage extends React.PureComponent {
@@ -35,9 +34,12 @@ export default class MessagePage extends React.PureComponent {
   loadMessages() {
     axios
       .get('/messages')
-      .then(results => this.setState({ messages: results }))
-      .then(console.log(this.state.messages))
+      .then(results => this.setState({ messages: results.data }))
       .catch(err => console.log('error fetching messages', err));
+  }
+
+  renderMessages() {
+    return this.state.messages.map(item => <li>{item.message}</li>);
   }
 
   render() {
@@ -46,12 +48,8 @@ export default class MessagePage extends React.PureComponent {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <List list={this.state.messages} />
+        {this.renderMessages()}
       </div>
     );
   }
 }
-
-// MessagePage.propTypes = {
-//   list: PropTypes.array.isRequired,
-// };

@@ -39,7 +39,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
         // for (let i = 0; i < results.length; i += 1) {
         //   data.push(results[i].message);
         // }
-        res.send('RESULTS', results);
+        res.send(results);
         console.log('fetched messages');
       }
     });

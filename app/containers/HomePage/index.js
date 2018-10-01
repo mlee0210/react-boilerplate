@@ -31,8 +31,8 @@ export default class HomePage extends React.PureComponent {
     const message = { message: this.state.message };
     axios
       .post('/messages', message)
-      .then(results => {
-        console.log('Message saved', results);
+      .then(() => {
+        alert('Message saved!');
         this.setState({ message: '' });
       })
       .catch(err => console.log('Message not saved', err));
@@ -49,7 +49,7 @@ export default class HomePage extends React.PureComponent {
           <Input
             id="message"
             type="text"
-            placeholder="message"
+            placeholder="message here"
             value={this.state.message}
             onChange={this.onChangeMessage}
           />
