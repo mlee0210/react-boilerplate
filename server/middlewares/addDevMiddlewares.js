@@ -4,6 +4,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const bodyParser = require('body-parser');
 const Message = require('../../database/index');
+const db = require('../../database/getMessages');
 
 function createWebpackMiddleware(compiler, publicPath) {
   return webpackDevMiddleware(compiler, {
@@ -29,12 +30,17 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   // artifacts, we use it instead
   const fs = middleware.fileSystem;
 
-  app.get('*', (req, res) => {
-    fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
+  app.get('/messages', (req, res) => {
+    db.getMessages({}, (err, results) => {
       if (err) {
-        res.sendStatus(404);
+        console.log('error', err);
       } else {
-        res.send(file.toString());
+        // const data = [];
+        // for (let i = 0; i < results.length; i += 1) {
+        //   data.push(results[i].message);
+        // }
+        res.send('RESULTS', results);
+        console.log('fetched messages');
       }
     });
   });
@@ -47,6 +53,16 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
       } else {
         console.log('message saved successfully...');
         res.sendStatus(201);
+      }
+    });
+  });
+
+  app.get('*', (req, res) => {
+    fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
+      if (err) {
+        res.sendStatus(404);
+      } else {
+        res.send(file.toString());
       }
     });
   });
