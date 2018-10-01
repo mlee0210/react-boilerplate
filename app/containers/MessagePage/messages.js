@@ -8,6 +8,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.components.MessagePage.header',
-    defaultMessage: 'List of messages!',
+    defaultMessage: 'Messages:',
   },
 });

@@ -12,10 +12,11 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
 import messages from './messages';
+import Message from './Message';
+import MessageList from './MessageList';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class MessagePage extends React.PureComponent {
@@ -39,7 +40,9 @@ export default class MessagePage extends React.PureComponent {
   }
 
   renderMessages() {
-    return this.state.messages.map(item => <li>{item.message}</li>);
+    return this.state.messages
+      .reverse()
+      .map(item => <Message>{item.message}</Message>);
   }
 
   render() {
@@ -48,7 +51,7 @@ export default class MessagePage extends React.PureComponent {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        {this.renderMessages()}
+        <MessageList> {this.renderMessages()} </MessageList>
       </div>
     );
   }
